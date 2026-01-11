@@ -4,7 +4,7 @@
 
 KataGo を Google Colaboratory で簡単に動かすためのノートブックです。
 
-![katago on colab](img/catago-on-colab.png)
+![katago on colab](img/katago-on-colab.png)
 
 
 
