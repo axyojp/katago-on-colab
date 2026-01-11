@@ -23,6 +23,7 @@ L4 でも十分です。
 ### 使い方
 基本的には上から下まで順番にセルを実行することで利用できるはずです。
 
+
 ---
 
 ## English
@@ -39,3 +40,10 @@ An L4 GPU is sufficient.
 
 ### Usage
 Basically, you can use it by executing the cells in order from top to bottom.
+
+### 謝辞 / Acknowledgments
+本プロジェクトは、David J. Wu 氏によって開発された素晴らしい囲碁 AI である KataGo を利用しています。著者に深く敬意を表します。
+また、KataGo が MIT ライセンスで公開されていることに倣い、本プロジェクトも MIT ライセンスを採用しています。
+
+This project makes use of KataGo, an amazing Go AI developed by David J. Wu. We express our deepest respect to the author.
+Following KataGo's release under the MIT License, this project also adopts the MIT License.
