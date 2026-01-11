@@ -24,6 +24,16 @@ L4 でも十分です。
 基本的には上から下まで順番にセルを実行することで利用できるはずです。
 
 
+
+### 開発について
+* あくまで検討で使えるツールとして作っているため、シンプルな機能しか実装していません。
+* Vibe Coding が世の中に浸透したおかげで作ることができました。
+* Colab の制約や便利な機能をうまく組み合わせる必要があり、試行錯誤を一緒にしてくれる AI がとても役に立ちました。
+* 今回は Gemini や Antigravity を使って開発を行ってます。
+* KataGo の設定はあまり詳しくないので改善があれば教えてください。
+* 機能要望はベストエフォートで対応します。
+
+
 ---
 
 ## English
@@ -40,6 +50,16 @@ An L4 GPU is sufficient.
 
 ### Usage
 Basically, you can use it by executing the cells in order from top to bottom.
+
+
+### About Development
+* Since this tool is intended for analysis, only simple features are implemented.
+* This project was made possible thanks to the spread of Vibe Coding.
+* Navigating Colab's constraints and features required trial and error, and the AI partner was extremely helpful.
+* Development was conducted using Gemini and Antigravity.
+* I am not an expert on KataGo settings, so please let me know if there are any improvements.
+* Feature requests will be handled on a best-effort basis.
+
 
 ### 謝辞 / Acknowledgments
 本プロジェクトは、David J. Wu 氏によって開発された素晴らしい囲碁 AI である KataGo を利用しています。著者に深く敬意を表します。
