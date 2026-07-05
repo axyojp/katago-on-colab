@@ -28,12 +28,20 @@ L4 でも十分です。
 
 基本的には上から下まで順番にセルを実行することで利用できます。
 
+**0. 準備するもの**
+
+- Google アカウント (Colab の利用に必要です)
+- ブラウザだけで動きます。パソコンへのインストールは不要です
+
 **1. ノートブックを開いて GPU を有効にする**
 
-1. 上の「Open In Colab」バッジからノートブックを開く
+1. 上の「Open In Colab」バッジをクリックすると、このリポジトリのノートブック **`katago-on-colab.ipynb`** が Google Colab で開きます
 2. メニューの「ランタイム」→「ランタイムのタイプを変更」→ ハードウェア アクセラレータで **GPU (L4 推奨)** を選択して保存
 
 **2. セルを上から順に実行する**
+
+セル (コードのかたまり) は、左端にある **再生ボタン (▶)** をクリックすると実行できます。
+初回の実行時に「警告: このノートブックは Google が作成したものではありません」と表示されたら、**「このまま実行」** を選んでください (このリポジトリのコードを実行して良いかの確認です)。
 
 | セル | 内容 |
 |---|---|
@@ -96,12 +104,20 @@ An L4 GPU is sufficient.
 
 Basically, you can use it by executing the cells in order from top to bottom.
 
+**0. What you need**
+
+- A Google account (required to use Colab)
+- Everything runs in your browser — no installation needed on your computer
+
 **1. Open the notebook and enable the GPU**
 
-1. Open the notebook via the "Open In Colab" badge above
+1. Click the "Open In Colab" badge above; it opens this repository's notebook **`katago-on-colab.ipynb`** in Google Colab
 2. Go to "Runtime" → "Change runtime type" → select **GPU (L4 recommended)** as the hardware accelerator and save
 
 **2. Run the cells from top to bottom**
+
+You can run each cell (block of code) by clicking the **play button (▶)** on its left edge.
+On the first run you may see "Warning: This notebook was not authored by Google" — choose **"Run anyway"** (it is just asking whether you trust the code in this repository).
 
 | Cell | Description |
 |---|---|
