@@ -26,7 +26,37 @@ L4 でも十分です。
 
 ### 使い方
 
-基本的には上から下まで順番にセルを実行することで利用できるはずです。
+基本的には上から下まで順番にセルを実行することで利用できます。
+
+**1. ノートブックを開いて GPU を有効にする**
+
+1. 上の「Open In Colab」バッジからノートブックを開く
+2. メニューの「ランタイム」→「ランタイムのタイプを変更」→ ハードウェア アクセラレータで **GPU (L4 推奨)** を選択して保存
+
+**2. セルを上から順に実行する**
+
+| セル | 内容 |
+|---|---|
+| KataGo Configuration | KataGo 本体とモデルの URL 設定。**既定のままで OK** |
+| モデルの選択 (任意) | 最新のネットワーク一覧をドロップダウンから選択。スキップ可 |
+| 1. インストール | 依存ライブラリ・KataGo 本体・モデルのダウンロード (数分かかります) |
+| 2. 設定ファイルの作成 | gtp.cfg を作成。そのまま実行 |
+| 3. ベンチマーク (任意) | 動作確認。スキップ可 |
+| 4. 設定の自動調整 (任意) | 最適なスレッド数を計測。表示された推奨値を 2 の `numSearchThreads` に反映して再実行 |
+| 5. 実行 | KataGo を起動して GUI を表示 |
+| 6. 終了処理 | 使い終わったら実行してプロセスを掃除 |
+
+**3. GUI の使い方**
+
+- **着手**: 碁盤をクリック (黒白交互)。**UNDO** で一手戻し、**PASS** でパス
+- **候補手**: 盤上の色付き丸が候補手 (赤いほど有力、数字は手番側の勝率)。右のリストには勝率と探索数 (visits) が表示されます
+- **常時解析**: 盤面を表示している間、裏で解析が回り続けます。見ているだけで候補手・勝率がどんどん深まり、現局面の総探索数は「N visits」表示で確認できます
+- **GPU 表示**: 情報パネル下部に GPU の種類と使用率。使用率が緑 (30%以上) なら解析が正常に働いています
+- **勝率バー**: 白地に黒い部分が黒の勝率です
+
+**4. 終わったら**
+
+「6. 終了処理」セルを実行し、Colab の「ランタイム」→「ランタイムを接続解除して削除」を実行してください (接続中はコンピューティングユニットを消費し続けます)。
 
 ### 開発について
 
@@ -65,6 +95,36 @@ An L4 GPU is sufficient.
 ### Usage
 
 Basically, you can use it by executing the cells in order from top to bottom.
+
+**1. Open the notebook and enable the GPU**
+
+1. Open the notebook via the "Open In Colab" badge above
+2. Go to "Runtime" → "Change runtime type" → select **GPU (L4 recommended)** as the hardware accelerator and save
+
+**2. Run the cells from top to bottom**
+
+| Cell | Description |
+|---|---|
+| KataGo Configuration | URLs for the KataGo release and the model. **Defaults are fine** |
+| Select Model (optional) | Pick one of the latest networks from a dropdown. Can be skipped |
+| 1. Installation | Downloads dependencies, KataGo, and the model (takes a few minutes) |
+| 2. Create Config | Writes gtp.cfg. Just run it |
+| 3. Benchmark (optional) | Sanity check. Can be skipped |
+| 4. Auto-tune (optional) | Measures the optimal thread count. Apply the suggested value to `numSearchThreads` in step 2 and rerun it |
+| 5. Execution | Starts KataGo and shows the GUI |
+| 6. Cleanup | Run when you are done to terminate the engine |
+
+**3. Using the GUI**
+
+- **Playing moves**: Click the board (Black and White alternate). **UNDO** takes back a move, **PASS** passes
+- **Candidate moves**: Colored circles on the board are candidates (redder = stronger, the number is the side-to-move win rate). The list on the right shows win rates and visit counts
+- **Continuous analysis**: While the board is displayed, the engine keeps analyzing in the background. Candidates and win rates keep deepening as you watch; the total visit count is shown as "N visits"
+- **GPU indicator**: The bottom of the info panel shows the GPU model and utilization. Green utilization (30%+) means the analysis is working properly
+- **Win rate bar**: The black portion of the bar is Black's win rate
+
+**4. When you are done**
+
+Run the "6. Cleanup" cell, then use "Runtime" → "Disconnect and delete runtime" (a connected runtime keeps consuming compute units).
 
 ### About Development
 
