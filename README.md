@@ -57,6 +57,8 @@ L4 でも十分です。
 **3. GUI の使い方**
 
 - **着手**: 碁盤をクリック (黒白交互)。**UNDO** で一手戻し、**PASS** でパス
+- **棋譜の保存・読み込み**: **SAVE SGF** でここまでの棋譜を SGF ファイルとしてダウンロード。**LOAD SGF** で手持ちの SGF ファイルを読み込んで、その続きから検討できます
+- **新規対局**: **NEW GAME** で盤面を初期化して最初から打ち直せます (間違って消さないよう確認ダイアログが出ます)
 - **候補手**: 盤上の色付き丸が候補手 (赤いほど有力、数字は手番側の勝率)。右のリストには勝率と探索数 (visits) が表示されます
 - **常時解析**: 盤面を表示している間、裏で解析が回り続けます。見ているだけで候補手・勝率がどんどん深まり、現局面の総探索数は「N visits」表示で確認できます
 - **GPU 表示**: 情報パネル下部に GPU の種類と使用率。使用率が緑 (30%以上) なら解析が正常に働いています
@@ -133,6 +135,8 @@ On the first run you may see "Warning: This notebook was not authored by Google"
 **3. Using the GUI**
 
 - **Playing moves**: Click the board (Black and White alternate). **UNDO** takes back a move, **PASS** passes
+- **Saving/loading games**: **SAVE SGF** downloads the game so far as an SGF file. **LOAD SGF** loads one of your SGF files so you can continue studying from that position
+- **New game**: **NEW GAME** clears the board so you can start over (a confirmation dialog prevents accidental clicks)
 - **Candidate moves**: Colored circles on the board are candidates (redder = stronger, the number is the side-to-move win rate). The list on the right shows win rates and visit counts
 - **Continuous analysis**: While the board is displayed, the engine keeps analyzing in the background. Candidates and win rates keep deepening as you watch; the total visit count is shown as "N visits"
 - **GPU indicator**: The bottom of the info panel shows the GPU model and utilization. Green utilization (30%+) means the analysis is working properly
