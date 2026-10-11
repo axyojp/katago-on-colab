@@ -57,6 +57,8 @@ L4 でも十分です。
 **3. GUI の使い方**
 
 - **着手**: 碁盤をクリック (黒白交互)。**UNDO** で一手戻し、**PASS** でパス
+- **手順の移動**: **« 10** で10手戻し、**10 »** で戻した手を10手まで進め直せます。戻した局面で別の手を打つと、それ以降の手順は破棄されます
+- **着手番号**: **SHOW NUMBERS** で盤上の石に何手目かを表示します (最終手は赤)。**HIDE NUMBERS** で非表示に戻ります
 - **棋譜の保存・読み込み**: **SAVE SGF** でここまでの棋譜を SGF ファイルとしてダウンロード。**LOAD SGF** で手持ちの SGF ファイルを読み込んで、その続きから検討できます
 - **新規対局**: **NEW GAME** で盤面を初期化して最初から打ち直せます (間違って消さないよう確認ダイアログが出ます)
 - **候補手**: 盤上の色付き丸が候補手 (赤いほど有力、数字は手番側の勝率)。右のリストには勝率と探索数 (visits) が表示されます
@@ -162,6 +164,8 @@ On the first run you may see "Warning: This notebook was not authored by Google"
 **3. Using the GUI**
 
 - **Playing moves**: Click the board (Black and White alternate). **UNDO** takes back a move, **PASS** passes
+- **Moving through the game**: **« 10** takes back ten moves, and **10 »** replays up to ten of the moves you took back. Playing a different move from an earlier position discards the moves after it
+- **Move numbers**: **SHOW NUMBERS** shows the move number on each stone (the last move in red). **HIDE NUMBERS** hides them again
 - **Saving/loading games**: **SAVE SGF** downloads the game so far as an SGF file. **LOAD SGF** loads one of your SGF files so you can continue studying from that position
 - **New game**: **NEW GAME** clears the board so you can start over (a confirmation dialog prevents accidental clicks)
 - **Candidate moves**: Colored circles on the board are candidates (redder = stronger, the number is the side-to-move win rate). The list on the right shows win rates and visit counts

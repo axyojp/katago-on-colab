@@ -1,6 +1,6 @@
 # AGENTS.md — AI エージェント向け開発ガイド
 
-このリポジトリで作業する AI コーディングエージェント (Claude Code / Gemini CLI / Antigravity など) 向けのガイドです。これまでの開発 (issue #1〜#35) で得た知見を整理しています。
+このリポジトリで作業する AI コーディングエージェント (Claude Code / Gemini CLI / Antigravity など) 向けのガイドです。これまでの開発 (issue #1〜#37) で得た知見を整理しています。
 
 ## プロジェクト概要
 
@@ -35,6 +35,7 @@ KataGo を Google Colaboratory 上で GPU 実行し、クリック操作でき�
 - GTP コマンドの成否は応答が `=` で始まるかで判定し、**成功時のみ** Python 側の状態 (手番・手数・履歴) を更新する (#1)
 - 起動待ちは固定 sleep ではなく `version` コマンドの応答待ち (GTP エンジンは準備完了までコマンドに応答しない) (#2)
 - **stderr も専用スレッドで読んでログに残す**。共有ライブラリ不足やモデルのバージョン非対応などの起動エラーは stderr にしか出ない (KataGo 自身の `gtp_logs/` にも残らない)。起動待ち中にプロセスが終了したら即座に失敗とし、stderr の末尾をエラーに含める (#32)
+- **手順の移動は redo スタックで行う**。UNDO / 10手戻すで戻した手を `(色, 座標)` で積み、10手進めるで打ち直す。戻した手と同じ手を打ったときだけ続きを残し、それ以外の着手・新規対局・SGF 読み込みでは破棄する。複数手まとめて動かすときも showboard は最後に1回だけ取る (#37)
 - JS への状態受け渡しは base64 経由 (`invokeFunction` の戻り値は text/plain の repr で、手動アンエスケープはクォートやバックスラッシュで壊れる) (#8)
 
 ## KataGo の設定・モデル
@@ -66,5 +67,6 @@ KataGo を Google Colaboratory 上で GPU 実行し、クリック操作でき�
 - `get_cells` は `cellIndexStart` / `cellIndexEnd` で範囲を絞る。大きなセルを含むノートブック全体を取ると出力が巨大になる
 - `!pkill -f katago` は、その `!` 行を実行するシェル自身のコマンドラインにも一致して先に自分を殺してしまい、KataGo が残る。終了処理セルと同じ psutil 方式で止める
 - モデル形式のエラーはバックエンドに関係なく同じ処理で出る。GPU ライブラリが無い環境でも CPU 版 (eigen / eigenavx2) のバイナリで再現できる (#32)
+- GUI の描画 (canvas) は colab-mcp からは見えない。Colab で `api_get_state()` の戻り値 (base64) を取得し、ローカルで `HTML_UI` に `google.colab.kernel.invokeFunction` のモックを付けて `google-chrome --headless=new --screenshot` で描画を確認できる (#37)
 - **検証が終わったら検証用セルをすべて削除する** (public リポジトリのため、検証用のコードや出力を残さない)
 - 最後にランタイムを切断する。`from google.colab import runtime; runtime.unassign()` で「接続解除して削除」になり、コンピューティングユニットの消費が止まる。切断の確認のためにセルを実行すると新しいランタイムに再接続してしまうので、確認はユーザーに画面表示で行ってもらう
