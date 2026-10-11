@@ -1,6 +1,6 @@
 # AGENTS.md — AI エージェント向け開発ガイド
 
-このリポジトリで作業する AI コーディングエージェント (Claude Code / Gemini CLI / Antigravity など) 向けのガイドです。これまでの開発 (issue #1〜#27) で得た知見を整理しています。
+このリポジトリで作業する AI コーディングエージェント (Claude Code / Gemini CLI / Antigravity など) 向けのガイドです。これまでの開発 (issue #1〜#33) で得た知見を整理しています。
 
 ## プロジェクト概要
 
@@ -45,6 +45,11 @@ KataGo を Google Colaboratory 上で GPU 実行し、クリック操作でき�
 - モデル名の規則: `kata1-<構造>-s<学習ステップ数>-d<データ行数>`。構造は `b28c512nbt` (28ブロック・512チャンネル・nested bottleneck の CNN) や `tf3-b11c768` (トランスフォーマー) など。新しいモデルは `s12501M` のように M 単位で略記される。同一構造なら s / d が大きいほど新しく強い (#16)
 - 2026-08 以降のメイン系統はトランスフォーマー (`tf3-b11c768`)。**トランスフォーマーは KataGo v1.17.0 以降でないと読めない**。cuDNN 8.9.7 ビルドはトランスフォーマーで大幅に遅いので cuDNN 9 ビルドを使う (#30)
 - katagotraining.org の API (`/api/networks/`、新しい順) は Python 既定の User-Agent を 403 で弾く。**明示的な User-Agent ヘッダを付ける** (#16)
+- モデルや Colab 環境が変わったときの確認手順 (#30):
+  1. モデル名の構造部分 (`b28c512nbt`、`tf3-…` など) を見て、新しい接頭辞なら読める KataGo のバージョンをリリースノートで調べる
+  2. Colab の CUDA を `nvidia-smi` で確認し、KataGo ビルド名 (`cuda13.2-…`) のメジャーバージョンを合わせる
+  3. `katago version` で共有ライブラリが揃っているか確認する
+  4. `benchmark -tune` をやり直し、`numSearchThreads` と `nnMaxBatchSize` を反映する
 
 ## Colab の制約
 
@@ -53,3 +58,13 @@ KataGo を Google Colaboratory 上で GPU 実行し、クリック操作でき�
 - **Colab のベースイメージは 2026-10 時点で Ubuntu 24.04 / CUDA 13.0 / cuDNN 9 (CUDA 13 用) がプリインストール**。CUDA 12 系ライブラリは無く、apt の `libcudnn8` も存在しない。KataGo は `cuda13.x-cudnn9.x` ビルドを使う (cuda12 ビルドは `libcublas.so.12` が無くて起動しない) (#30)
 - KataGo の Linux バイナリは AppImage (static-pie) なので `ldd` では依存を確認できない。`katago version` を実行すれば共有ライブラリ不足がエラーとして出る
 - colab-mcp の `run_code_cell` は長時間セルでクライアント側タイムアウトするが、セル自体は実行が継続する。`get_cells` の出力ポーリングで完了を確認する
+
+## Colab 実機検証の進め方
+
+- 検証は空のノートブック (colab-mcp の接続先) に検証用セルを足して行う。リポジトリのノートブック本体は書き換えない
+- push 済みのセルは GitHub raw から取得して `get_ipython().run_cell(src)` で実行できる。未 push の変更は、ローカルでセルのソースを zlib + base64 にしてセルに貼り、展開後に sha256 をローカルと照合してから実行する
+- `get_cells` は `cellIndexStart` / `cellIndexEnd` で範囲を絞る。大きなセルを含むノートブック全体を取ると出力が巨大になる
+- `!pkill -f katago` は、その `!` 行を実行するシェル自身のコマンドラインにも一致して先に自分を殺してしまい、KataGo が残る。終了処理セルと同じ psutil 方式で止める
+- モデル形式のエラーはバックエンドに関係なく同じ処理で出る。GPU ライブラリが無い環境でも CPU 版 (eigen / eigenavx2) のバイナリで再現できる (#32)
+- **検証が終わったら検証用セルをすべて削除する** (public リポジトリのため、検証用のコードや出力を残さない)
+- 最後にランタイムを切断する。`from google.colab import runtime; runtime.unassign()` で「接続解除して削除」になり、コンピューティングユニットの消費が止まる。切断の確認のためにセルを実行すると新しいランタイムに再接続してしまうので、確認はユーザーに画面表示で行ってもらう
