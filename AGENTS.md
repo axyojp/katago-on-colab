@@ -38,14 +38,17 @@ KataGo を Google Colaboratory 上で GPU 実行し、クリック操作でき�
 
 ## KataGo の設定・モデル
 
-- `gtp.cfg` は Colab L4 基準。`numSearchThreads = 24` は L4 + b28 モデルでの `benchmark -tune` 実測値 (#11)。GPU が変わったら再計測を促す
+- `gtp.cfg` は Colab L4 基準。`numSearchThreads = 12` / `nnMaxBatchSize = 6` は L4 + tf3-b11c768 での `benchmark -tune` 実測の推奨値 (#30。旧 b28 では 24 だった #11)。v1.18 の `-tune` はバッチサイズ (スレッド数の半分) も推奨する。GPU やモデル構造が変わったら再計測を促す
 - `benchmark -tune` は推奨スレッド数を**表示するだけ**で cfg は書き換えない。対話的な自動生成は `genconfig` (#5)
 - ポンダリングは無効 (`ponderingEnabled = false`)。常時解析モードが GPU を使うため不要
-- モデル名の規則: `kata1-<構造>-s<学習ステップ数>-d<データ行数>`。構造は `b28c512nbt` (28ブロック・512チャンネル・nested bottleneck) など。同一構造なら s / d が大きいほど新しく強い。現在のメイン系統は b28c512nbt (#16)
+- モデル名の規則: `kata1-<構造>-s<学習ステップ数>-d<データ行数>`。構造は `b28c512nbt` (28ブロック・512チャンネル・nested bottleneck の CNN) や `tf3-b11c768` (トランスフォーマー) など。新しいモデルは `s12501M` のように M 単位で略記される。同一構造なら s / d が大きいほど新しく強い (#16)
+- 2026-08 以降のメイン系統はトランスフォーマー (`tf3-b11c768`)。**トランスフォーマーは KataGo v1.17.0 以降でないと読めない**。cuDNN 8.9.7 ビルドはトランスフォーマーで大幅に遅いので cuDNN 9 ビルドを使う (#30)
 - katagotraining.org の API (`/api/networks/`、新しい順) は Python 既定の User-Agent を 403 で弾く。**明示的な User-Agent ヘッダを付ける** (#16)
 
 ## Colab の制約
 
 - ランタイムタイプ (GPU 種別) はノートブック内から変更できない (ユーザーの UI 操作が必要)
 - コンピューティングユニットの消費は**ランタイム接続時間ベース**で、GPU 使用率には依存しない
+- **Colab のベースイメージは 2026-10 時点で Ubuntu 24.04 / CUDA 13.0 / cuDNN 9 (CUDA 13 用) がプリインストール**。CUDA 12 系ライブラリは無く、apt の `libcudnn8` も存在しない。KataGo は `cuda13.x-cudnn9.x` ビルドを使う (cuda12 ビルドは `libcublas.so.12` が無くて起動しない) (#30)
+- KataGo の Linux バイナリは AppImage (static-pie) なので `ldd` では依存を確認できない。`katago version` を実行すれば共有ライブラリ不足がエラーとして出る
 - colab-mcp の `run_code_cell` は長時間セルでクライアント側タイムアウトするが、セル自体は実行が継続する。`get_cells` の出力ポーリングで完了を確認する
