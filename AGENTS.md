@@ -1,12 +1,12 @@
 # AGENTS.md — AI エージェント向け開発ガイド
 
-このリポジトリで作業する AI コーディングエージェント (Claude Code / Gemini CLI / Antigravity など) 向けのガイドです。これまでの開発 (issue #1〜#33) で得た知見を整理しています。
+このリポジトリで作業する AI コーディングエージェント (Claude Code / Gemini CLI / Antigravity など) 向けのガイドです。これまでの開発 (issue #1〜#35) で得た知見を整理しています。
 
 ## プロジェクト概要
 
 KataGo を Google Colaboratory 上で GPU 実行し、クリック操作できる碁盤 GUI で検討するための単一ノートブック (`katago-on-colab.ipynb`)。ビルドシステムやテストスイートはなく、成果物はノートブックそのものです。
 
-- 対象環境: Colab の GPU ランタイム (L4 基準。T4 でも動作)
+- 対象環境: Colab の GPU ランタイム (L4 基準。T4 でも動作確認済み #35)
 - 構成: `README.md` (日英ミラー構成) / `katago-on-colab.ipynb` / `img/` (スクリーンショット) / `LICENSE` (MIT)
 
 ## 開発ワークフロー (必須)
@@ -39,7 +39,7 @@ KataGo を Google Colaboratory 上で GPU 実行し、クリック操作でき�
 
 ## KataGo の設定・モデル
 
-- `gtp.cfg` は Colab L4 基準。`numSearchThreads = 12` / `nnMaxBatchSize = 6` は L4 + tf3-b11c768 での `benchmark -tune` 実測の推奨値 (#30。旧 b28 では 24 だった #11)。v1.18 の `-tune` はバッチサイズ (スレッド数の半分) も推奨する。GPU やモデル構造が変わったら再計測を促す
+- `gtp.cfg` は Colab L4 基準。`numSearchThreads = 12` / `nnMaxBatchSize = 6` は L4 + tf3-b11c768 での `benchmark -tune` 実測の推奨値 (#30。旧 b28 では 24 だった #11)。v1.18 の `-tune` はバッチサイズ (スレッド数の半分) も推奨する。GPU やモデル構造が変わったら再計測を促す。T4 + tf3 では 5 スレッドが推奨されたが、12 スレッド / バッチ 6 の既定値との速度差は 2% 未満 (約 265〜270 visits/s。L4 の約 4 割) なので既定値は共通のままにしている (#35)
 - `benchmark -tune` は推奨スレッド数を**表示するだけ**で cfg は書き換えない。対話的な自動生成は `genconfig` (#5)
 - ポンダリングは無効 (`ponderingEnabled = false`)。常時解析モードが GPU を使うため不要
 - モデル名の規則: `kata1-<構造>-s<学習ステップ数>-d<データ行数>`。構造は `b28c512nbt` (28ブロック・512チャンネル・nested bottleneck の CNN) や `tf3-b11c768` (トランスフォーマー) など。新しいモデルは `s12501M` のように M 単位で略記される。同一構造なら s / d が大きいほど新しく強い (#16)

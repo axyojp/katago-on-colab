@@ -93,6 +93,8 @@ GPU ランタイムに接続されていません。「ランタイム」→「�
 
 `gtp.cfg` の `numSearchThreads` と `nnMaxBatchSize` は L4 + 既定モデルでの計測値です。「4. 設定の自動調整」の推奨値に合わせて変更してください (`nnMaxBatchSize` の推奨値も表示されます)。
 
+なお T4 では既定値のままでもほぼ最速でした (2026-10 計測。L4 の約 4 割の速度)。
+
 ### 開発について
 
 * あくまで検討で使えるツールとして作っているため、シンプルな機能しか実装していません。
@@ -195,6 +197,8 @@ If it says KataGo did not respond within 180 seconds (`180 秒以内に応答し
 **You changed the GPU (T4 / A100, etc.) or the model**
 
 `numSearchThreads` and `nnMaxBatchSize` in `gtp.cfg` were measured on an L4 with the default model. Adjust them to the values suggested by "4. Auto-tune" (it also suggests an `nnMaxBatchSize`).
+
+On a T4, the defaults were already close to the fastest setting (measured 2026-10; about 40% of the L4 speed).
 
 ### About Development
 
