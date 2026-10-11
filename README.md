@@ -50,7 +50,7 @@ L4 でも十分です。
 | 1. インストール | 依存ライブラリ・KataGo 本体・モデルのダウンロード (数分かかります) |
 | 2. 設定ファイルの作成 | gtp.cfg を作成。そのまま実行 |
 | 3. ベンチマーク (任意) | 動作確認。スキップ可 |
-| 4. 設定の自動調整 (任意) | 最適なスレッド数を計測。表示された推奨値を 2 の `numSearchThreads` に反映して再実行 |
+| 4. 設定の自動調整 (任意) | 最適なスレッド数とバッチサイズを計測。表示された推奨値を 2 の `numSearchThreads` と `nnMaxBatchSize` に反映して再実行 |
 | 5. 実行 | KataGo を起動して GUI を表示 |
 | 6. 終了処理 | 使い終わったら実行してプロセスを掃除 |
 
@@ -153,7 +153,7 @@ On the first run you may see "Warning: This notebook was not authored by Google"
 | 1. Installation | Downloads dependencies, KataGo, and the model (takes a few minutes) |
 | 2. Create Config | Writes gtp.cfg. Just run it |
 | 3. Benchmark (optional) | Sanity check. Can be skipped |
-| 4. Auto-tune (optional) | Measures the optimal thread count. Apply the suggested value to `numSearchThreads` in step 2 and rerun it |
+| 4. Auto-tune (optional) | Measures the optimal thread count and batch size. Apply the suggested values to `numSearchThreads` and `nnMaxBatchSize` in step 2 and rerun it |
 | 5. Execution | Starts KataGo and shows the GUI |
 | 6. Cleanup | Run when you are done to terminate the engine |
 
