@@ -68,6 +68,29 @@ L4 でも十分です。
 
 「6. 終了処理」セルを実行し、Colab の「ランタイム」→「ランタイムを接続解除して削除」を実行してください (接続中はコンピューティングユニットを消費し続けます)。
 
+### トラブルシューティング
+
+**`error while loading shared libraries: libcublas.so.12` などのエラーで起動しない**
+
+Colab の環境は 2026-10 時点で CUDA 13 に更新されており、CUDA 12 向けの KataGo (v1.16.4 以前の既定設定) は動きません。
+保存しておいた古いコピーではなく、上の「Open In Colab」バッジから最新のノートブックを開き直してください。`KATAGO_RELEASE_URL` を自分で変更している場合は、ファイル名に `cuda13` を含むビルドを選んでください。
+
+**最新のモデル (`tf3-` で始まるもの) を選ぶと起動しない**
+
+2026-08 以降の最新モデルはトランスフォーマー型で、KataGo **v1.17.0 以降**でないと読み込めません。`KATAGO_RELEASE_URL` を古いバージョンにしている場合は、最新版に戻してください。
+
+**`nvidia-smi: command not found` と表示される / 極端に遅い**
+
+GPU ランタイムに接続されていません。「ランタイム」→「ランタイムのタイプを変更」で GPU を選び直してください (「使い方」の 1. を参照)。
+
+**「KataGo の起動に失敗しました」と表示される**
+
+表示されたログファイル (`./logs/katago_*.log`) にエラーの内容が出ています。左のファイル一覧から開いて確認してください。
+
+**GPU (T4 / A100 など) やモデルを変えた**
+
+`gtp.cfg` の `numSearchThreads` と `nnMaxBatchSize` は L4 + 既定モデルでの計測値です。「4. 設定の自動調整」の推奨値に合わせて変更してください (`nnMaxBatchSize` の推奨値も表示されます)。
+
 ### 開発について
 
 * あくまで検討で使えるツールとして作っているため、シンプルな機能しか実装していません。
@@ -145,6 +168,29 @@ On the first run you may see "Warning: This notebook was not authored by Google"
 **4. When you are done**
 
 Run the "6. Cleanup" cell, then use "Runtime" → "Disconnect and delete runtime" (a connected runtime keeps consuming compute units).
+
+### Troubleshooting
+
+**KataGo fails to start with `error while loading shared libraries: libcublas.so.12` or a similar error**
+
+As of 2026-10, Colab has been updated to CUDA 13, and CUDA 12 builds of KataGo (the default up to v1.16.4) no longer run.
+Reopen the latest notebook from the "Open In Colab" badge above instead of an old saved copy. If you changed `KATAGO_RELEASE_URL` yourself, pick a build with `cuda13` in its file name.
+
+**KataGo fails to start with the latest models (names starting with `tf3-`)**
+
+The latest models since 2026-08 are transformers and require KataGo **v1.17.0 or later**. If you set `KATAGO_RELEASE_URL` to an older version, switch back to the latest one.
+
+**`nvidia-smi: command not found` is shown / it is extremely slow**
+
+You are not connected to a GPU runtime. Select a GPU again via "Runtime" → "Change runtime type" (see step 1 of "Usage").
+
+**"KataGo の起動に失敗しました" (KataGo failed to start) is shown**
+
+The error details are in the displayed log file (`./logs/katago_*.log`). Open it from the file browser on the left.
+
+**You changed the GPU (T4 / A100, etc.) or the model**
+
+`numSearchThreads` and `nnMaxBatchSize` in `gtp.cfg` were measured on an L4 with the default model. Adjust them to the values suggested by "4. Auto-tune" (it also suggests an `nnMaxBatchSize`).
 
 ### About Development
 
