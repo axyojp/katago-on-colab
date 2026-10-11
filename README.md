@@ -75,7 +75,7 @@ L4 でも十分です。
 Colab の環境は 2026-10 時点で CUDA 13 に更新されており、CUDA 12 向けの KataGo (v1.16.4 以前の既定設定) は動きません。
 保存しておいた古いコピーではなく、上の「Open In Colab」バッジから最新のノートブックを開き直してください。`KATAGO_RELEASE_URL` を自分で変更している場合は、ファイル名に `cuda13` を含むビルドを選んでください。
 
-**最新のモデル (`tf3-` で始まるもの) を選ぶと起動しない**
+**最新のモデル (`tf3-` で始まるもの) を選ぶと `This neural net requires a newer KataGo version` と表示されて起動しない**
 
 2026-08 以降の最新モデルはトランスフォーマー型で、KataGo **v1.17.0 以降**でないと読み込めません。`KATAGO_RELEASE_URL` を古いバージョンにしている場合は、最新版に戻してください。
 
@@ -83,9 +83,11 @@ Colab の環境は 2026-10 時点で CUDA 13 に更新されており、CUDA 12 
 
 GPU ランタイムに接続されていません。「ランタイム」→「ランタイムのタイプを変更」で GPU を選び直してください (「使い方」の 1. を参照)。
 
-**「KataGo の起動に失敗しました」と表示される**
+**「5. 実行」セルが `RuntimeError` で止まる**
 
-表示されたログファイル (`./logs/katago_*.log`) にエラーの内容が出ています。左のファイル一覧から開いて確認してください。
+エラーメッセージに、KataGo が出力したエラー (stderr の末尾) が表示されます。上の各項目と照らし合わせてください。
+もっと前からの経緯を見たい場合は、表示されたログファイル (`./logs/katago_*.log`) を左のファイル一覧から開いてください。KataGo の stderr は `STDERR |` 付きで記録されています。
+「180 秒以内に応答しませんでした」と表示される場合は、モデルの読み込みに時間がかかりすぎています。GPU ランタイムかどうかを確認してください。
 
 **GPU (T4 / A100 など) やモデルを変えた**
 
@@ -176,7 +178,7 @@ Run the "6. Cleanup" cell, then use "Runtime" → "Disconnect and delete runtime
 As of 2026-10, Colab has been updated to CUDA 13, and CUDA 12 builds of KataGo (the default up to v1.16.4) no longer run.
 Reopen the latest notebook from the "Open In Colab" badge above instead of an old saved copy. If you changed `KATAGO_RELEASE_URL` yourself, pick a build with `cuda13` in its file name.
 
-**KataGo fails to start with the latest models (names starting with `tf3-`)**
+**KataGo fails to start with `This neural net requires a newer KataGo version` when using the latest models (names starting with `tf3-`)**
 
 The latest models since 2026-08 are transformers and require KataGo **v1.17.0 or later**. If you set `KATAGO_RELEASE_URL` to an older version, switch back to the latest one.
 
@@ -184,9 +186,11 @@ The latest models since 2026-08 are transformers and require KataGo **v1.17.0 or
 
 You are not connected to a GPU runtime. Select a GPU again via "Runtime" → "Change runtime type" (see step 1 of "Usage").
 
-**"KataGo の起動に失敗しました" (KataGo failed to start) is shown**
+**The "5. Execution" cell stops with a `RuntimeError`**
 
-The error details are in the displayed log file (`./logs/katago_*.log`). Open it from the file browser on the left.
+The error message includes the error output from KataGo (the end of its stderr). Compare it with the items above.
+For the full history, open the displayed log file (`./logs/katago_*.log`) from the file browser on the left. KataGo's stderr is recorded with a `STDERR |` prefix.
+If it says KataGo did not respond within 180 seconds (`180 秒以内に応答しませんでした`), loading the model is taking too long. Check that you are on a GPU runtime.
 
 **You changed the GPU (T4 / A100, etc.) or the model**
 
