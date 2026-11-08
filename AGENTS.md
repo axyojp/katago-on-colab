@@ -12,9 +12,13 @@ KataGo を Google Colaboratory 上で GPU 実行し、クリック操作でき�
 ## 開発ワークフロー (必須)
 
 1. 変更は必ず先に GitHub issue を作る。本文は日本語で「現状 / 問題 / 対応方針」を記載する
-2. コミットは変更単位で分ける。メッセージは英語で、本文に `Fixes #N` を含める (push で issue が自動クローズされる)
+2. コミットは変更単位で分ける。メッセージは英語で、本文に `Fixes #N` を含める (main にマージされたときに issue が自動クローズされる)
 3. 可能なら Colab 実機で検証し (公式 colab-mcp が使える)、検証結果を issue にコメントとして記録する
 4. このリポジトリのコミットは noreply メール名義で行う (リポジトリローカルの git config 設定済み)
+5. **ノートブックの変更は、main に入れる前にブランチ版を axyojp が Colab で確認する** (#45)。README のバッジは main のノートブックを直接開くので、main = 利用者がそのまま使うもの
+   - ブランチに push して PR を作り、本文に「Colab で開く」リンクを貼る。リンクは**コミット SHA で指定**する (`https://colab.research.google.com/github/axyojp/katago-on-colab/blob/<SHA>/katago-on-colab.ipynb`)。ブランチ名に `/` を含むと URL でうまく解釈されない可能性があるため。push し直したらリンクも更新する
+   - ノートブックは実行時に main から何も読み込まない (README 用の画像を除く) ので、ブランチ版を開けば変更後の動作をそのまま試せる
+   - axyojp の OK をもらってからマージする。ドキュメントだけの変更 (README / AGENTS.md など) はこの確認を省いてよい
 
 ## ノートブック編集の注意
 
